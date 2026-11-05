@@ -1,8 +1,10 @@
 import 'package:app3/features/auth/data/models/book_model.dart';
 import 'package:app3/features/book_details/data/models/book_details_model.dart';
-import 'package:app3/features/book_details/data/repo/book_details_repo.dart';
+//import 'package:app_repo11/features/book_details/data/repo/book_details_repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+
+import '../../data/repo/book_details_repo.dart';
 
 part 'book_details_state.dart';
 

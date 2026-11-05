@@ -1,58 +1,54 @@
+name: app3
+description: "A new Flutter project."
 
-  name: app3
-  description: "A new Flutter project."
+publish_to: 'none'
 
-  publish_to: 'none'
+version: 1.0.0+1
 
-  version: 1.0.0+1
+environment:
+  sdk: ^3.7.2
 
-  environment:
-    sdk: ^3.7.2
-
-  dependencies:
-    flutter:
-      sdk: flutter
-
-    cupertino_icons: ^1.0.8
-    flutter_screenutil: ^5.9.3
-    easy_localization: ^3.0.8
-    flutter_bloc: ^9.1.1
-    flutter_native_splash: ^2.4.6
-    dio: ^5.11.1
-    shared_preferences: ^2.5.3
-    skeletonizer: ^1.4.3
-
-    json_annotation: ^4.9.0
-    flutter_svg: ^2.2.2
-
-
-  dev_dependencies:
-    flutter_test:
-      sdk: flutter
-
-    flutter_lints: ^5.0.0
-    build_runner: ^2.5.4
-    json_serializable: ^6.9.5
-    flutter_gen_runner: 5.13.0+1
-
-
+dependencies:
   flutter:
-    uses-material-design: true
+    sdk: flutter
 
-    assets:
-      - assets/translations/
-      - assets/images/
-      - assets/icons/
+  cupertino_icons: ^1.0.8
+  flutter_screenutil: ^5.9.3
+  easy_localization: ^3.0.8
+  flutter_bloc: ^9.1.1
+  flutter_native_splash: ^2.4.6
+  dio: ^5.11.1
+  shared_preferences: ^2.5.3
+  skeletonizer: ^2.1.2
 
-    fonts:
-      - family: DM
-        fonts:
-          - asset: assets/fonts/DMSerifDisplay-Italic.ttf
-          - asset: assets/fonts/DMSerifDisplay-Regular.ttf
+  json_annotation: ^4.9.0
+  flutter_svg: ^2.2.2
+  pretty_dio_logger: ^1.4.0
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
-  flutter_gen:
-    output: lib/gen/
-    line_length: 80
-    integrations:
-      flutter_svg: true
+  flutter_lints: ^5.0.0
+  build_runner: ^2.5.4
+  json_serializable: ^6.9.5
+  flutter_gen_runner: 5.13.0+1
 
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/translations/
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+    - family: DM
+      fonts:
+        - asset: assets/fonts/DMSerifDisplay-Italic.ttf
+        - asset: assets/fonts/DMSerifDisplay-Regular.ttf
+
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+  integrations:
+    flutter_svg: true

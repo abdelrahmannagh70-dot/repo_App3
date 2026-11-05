@@ -5,76 +5,74 @@ import 'package:app3/features/button_nav_bar/presentation/ui/button_nav_bar_scre
 import 'package:app3/features/presentaion/cubit/auth_cubit.dart';
 import 'package:app3/features/presentaion/cubit/cubit/home_cubit.dart';
 import 'package:app3/features/presentaion/ui/login_Screen.dart';
-import 'package:app3/features/welcome/presentaion/home/home_screen.dart';
+import 'package:app3/features/welcome/presentaion/home/search_screen.dart';
 import 'package:app3/features/welcome/presentaion/ui/register_screen.dart';
 import 'package:app3/features/welcome/presentaion/ui/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app3/features/welcome/presentaion/slider/slider_cubit.dart';
-
-import '../../features/welcome/presentaion/home/search_screen.dart';
 
 class AppRouter {
   static Route? onGenerateRoute(RouteSettings setting) {
     switch (setting.name) {
+
+    // Login Screen
       case AppRoutes.loginScreen:
         return MaterialPageRoute(
           settings: setting,
-          builder:
-              (_) => BlocProvider(
-                create: (context) => AuthCubit(),
-                child: loginScreen(),
-              ),
+          builder: (_) => BlocProvider(
+            create: (context) => AuthCubit(),
+            child: loginScreen(),
+          ),
         );
 
+    // Button Nav Bar Screen
       case AppRoutes.buttonNavBarScreen:
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => const ButtonNavBarScreen(),
         );
 
+    // Home Screen
       case AppRoutes.homeScreen:
         return MaterialPageRoute(
           settings: setting,
-          builder:
-              (_) => MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) => HomeCubit()..getBestSellerBox(),
-                  ),
-
-                  BlocProvider(
-                    create: (context) => SliderCubit()..getSliders(),
-                  ),
-                ],
-                child: HomeScreen(),
-              ),
+          builder: (_) => const ButtonNavBarScreen(),
         );
 
+    // Welcome Screen
       case AppRoutes.welcomeScreen:
         return MaterialPageRoute(
           settings: setting,
           builder: (_) => const WelcomeScreen(),
         );
 
+    // Register Screen
+      case AppRoutes.registerScreen:
+        return MaterialPageRoute(
+          settings: setting,
+          builder: (_) => const RegisterScreen(),
+        );
+
+    // Search Screen
       case AppRoutes.searchScreen:
         return MaterialPageRoute(
           settings: setting,
-          builder:
-              (_) => BlocProvider(
-                create: (context) => HomeCubit()..search("text"),
-                child: const SearchScreen(),
-              ),
+          builder: (_) => BlocProvider(
+            create: (context) => HomeCubit(),
+            child: SearchScreen(),
+          ),
         );
+
+    // Book Details Screen
       case AppRoutes.bookDetailsScreen:
         int id = setting.arguments as int;
+
         return MaterialPageRoute(
           settings: setting,
-          builder:
-              (_) => BlocProvider(
-                create: (context) => BookDetailsCubit()..getDetails(id),
-                child: BookDetailsScreen(bookId: id),
-              ),
+          builder: (_) => BlocProvider(
+            create: (context) => BookDetailsCubit()..getDetails(id),
+            child: BookDetailsScreen(bookId: id),
+          ),
         );
 
       default:

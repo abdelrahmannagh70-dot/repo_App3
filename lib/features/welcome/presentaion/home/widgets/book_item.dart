@@ -1,7 +1,9 @@
 import 'package:app3/core/routes/app_route.dart';
 import 'package:app3/core/themes/app_colors.dart';
 import 'package:app3/features/auth/data/models/book_model.dart';
+import 'package:app3/features/presentaion/cubit/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookItem extends StatelessWidget {
@@ -83,47 +85,49 @@ class BookItem extends StatelessWidget {
 
             // Price and Cart Button
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-              children: [
+                children: [
 
-                Text(
-                  products?.price ?? "0",
+                  Text(
+                    products?.price ?? "0",
 
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-
-                Container(
-                  width: 38.w,
-                  height: 38.h,
-
-                  decoration: BoxDecoration(
-                    color: AppColors.darkColor,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Added to cart"),
-                        ),
-                      );
-                    },
-
-                    icon: const Icon(
-                      Icons.add,
-                      color: Colors.white,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
-              ],
-            ),
+
+                  Container(
+                    width: 38.w,
+                    height: 38.h,
+
+                    decoration: BoxDecoration(
+                      color: AppColors.darkColor,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+
+                      onPressed: () {
+                        context.read<HomeCubit>().addToCart(products?.id ?? 0);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Added to cart"),
+                          ),
+                        );
+                      },
+
+                      icon: const Icon(
+                        Icons.shopping_cart,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
           ],
         ),
       ),

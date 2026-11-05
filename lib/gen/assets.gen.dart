@@ -70,6 +70,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo 2.png
   AssetGenImage get logo2 => const AssetGenImage('assets/images/logo 2.png');
 
+  /// File path: assets/images/nav1.jpg
+  AssetGenImage get nav1 => const AssetGenImage('assets/images/nav1.jpg');
+
+  /// File path: assets/images/nav3.jpg
+  AssetGenImage get nav3 => const AssetGenImage('assets/images/nav3.jpg');
+
   /// File path: assets/images/register 1.png
   AssetGenImage get register1 =>
       const AssetGenImage('assets/images/register 1.png');
@@ -109,6 +115,8 @@ class $AssetsImagesGen {
     login,
     logo1,
     logo2,
+    nav1,
+    nav3,
     register1,
     search2,
     search3,

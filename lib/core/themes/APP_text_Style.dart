@@ -4,7 +4,7 @@ import 'package:app3/core/themes/APP_text_Style.dart';
 class AppTextStyle{
   static TextStyle font30Regular =TextStyle(
   fontSize:30,
-    color: AppColors.darkColor
+    color: Colors.black
 
 
   );

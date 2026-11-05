@@ -80,7 +80,7 @@ class _HomeSliderState extends State<HomeSlider> {
                       height: 8.h,
                       decoration: BoxDecoration(
                         color: currentIndex == index
-                            ? Colors.orange
+                            ? Colors.amberAccent
                             : Colors.grey.shade300,
                         borderRadius: BorderRadius.circular(10.r),
                       ),

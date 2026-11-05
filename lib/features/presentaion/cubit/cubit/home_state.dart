@@ -21,3 +21,6 @@ final class SearchSuccess extends HomeState{
 
 
 }
+final class AddToCartSuccess extends HomeState{}
+final class AddToCartLoading extends HomeState{}
+final class AddToCartError extends HomeState{}

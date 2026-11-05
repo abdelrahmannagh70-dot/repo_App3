@@ -1,369 +1,235 @@
-# 📚 Bookia App
+📚 Bookia App
 
-A modern mobile application built with **Flutter and Dart**, designed to provide users with a simple and enjoyable experience for browsing books and exploring book-related content.
+A modern mobile application built with Flutter and Dart that lets users browse books, search, view details, manage a shopping cart, and manage their profile.
 
-The project follows a modular structure to keep the code organized, reusable, and easy to maintain.
+The project follows a modular, feature-based structure using Cubit (flutter_bloc) for state management and Dio for networking, so the code stays organized, reusable, and easy to maintain.
 
-## 📱 Screenshots
+📱 Screenshots
+Splash & Welcome
+<p align="center"> <img src="assets/images/splash1.png" width="250" alt="Splash Screen"> <img src="assets/images/welcome 2.png" width="250" alt="Welcome Screen"> </p>
+Authentication
+<p align="center"> <img src="assets/images/login.png" width="250" alt="Login Screen"> <img src="assets/images/register 1.png" width="250" alt="Register Screen"> <img src="assets/images/error.png" width="250" alt="Login Error State"> </p>
+Home
+<p align="center"> <img src="assets/images/home_screenn.png" width="250" alt="Home Screen"> <img src="assets/images/silder.png" width="250" alt="Home Slider"> </p>
+Search
+<p align="center"> <img src="assets/images/search2.png" width="250" alt="Search"> <img src="assets/images/search3.png" width="250" alt="Search Results"> </p>
+Book Details
+<p align="center"> <img src="assets/images/details.png" width="250" alt="Book Details"> <img src="assets/images/details3.png" width="250" alt="Book Details Description"> </p>
+Bottom Navigation
+<p align="center"> <img src="assets/images/nav1.jpg" width="250" alt="Navigation 1"> <img src="assets/images/nav3.jpg" width="250" alt="Navigation 2"> </p>
+Profile
+<p align="center"> <img src="assets/images/profile1.jpg" width="250" alt="Profile 1"> <img src="assets/images/profile2.jpg" width="250" alt="Profile 2"> </p>
+Cart
+<p align="center"> <img src="assets/images/cart1.jpg" width="250" alt="Cart 1"> <img src="assets/images/cart2.jpg" width="250" alt="Cart 2"> </p>
 
-### Welcome & Splash Screen
+Note: GitHub paths are case-sensitive, and filenames containing spaces (like welcome 2.png) must match exactly. Renaming files to use underscores (e.g. welcome_2.png) avoids problems.
 
-<p align="center">
-  <img src="assets/images/splash1.png" width="300" alt="Splash Screen">
-  <img src="assets/images/welcome 2.png" width="300" alt="Welcome Screen">
-</p>
+✨ Features
+Authentication
+Login screen with email and password fields.
+Registration screen UI.
+Form validation for user input.
+Loading, success, and error states managed by AuthCubit.
+Navigation after successful authentication.
+Home
+Best Seller books list.
+Banner slider with page indicators.
+Add to cart directly from the home screen.
+Search & Book Details
+Search for books by name.
+Book details screen (name, price, discount, description, category).
+Navigation
+Bottom navigation bar to move between the main screens.
+Profile
+Displays the logged-in user's data (name, email, image, address, city, phone).
+Cart
+Fetch the cart from the API with a skeleton loading effect.
+Cart items list with image, name, price, discount, and quantity.
+Increase / decrease quantity of an item.
+Remove an item from the cart.
+Order summary with the total price.
+Item counter badge in the app bar.
+Pull-to-refresh and a refresh button.
+Empty cart view and error view.
+Thin progress bar while an item is being updated or removed.
+SnackBar error messages for failed operations.
+Application Architecture
+State management using Cubit and flutter_bloc.
+Centralized API endpoints (ApiEndPoint).
+Centralized named routes.
+Repository pattern for data access.
+Reusable UI components.
+Responsive layouts using Flutter ScreenUtil.
+Localization support using Easy Localization.
+🛠️ Technologies & Packages
+Package / Tool	Purpose
+Flutter / Dart	Building the app and programming language
+flutter_bloc	State management (Cubit and BlocBuilder / BlocConsumer / BlocProvider)
+bloc	Core Bloc library used by flutter_bloc
+meta	Annotations such as @immutable on state classes
+dio	Sending HTTP requests (GET / POST) to the API
+flutter_screenutil	Responsive sizing (.w, .h, .sp, .r)
+easy_localization	Multi-language support (English / German)
+pretty_dio_logger	Readable request/response logs in the console (verify in your pubspec.yaml)
 
-### Authentication Screens
+Tip: Open pubspec.yaml and make sure this table matches the packages you actually use. Add any others you installed (for example image caching, shimmer, or HTML rendering packages).
 
-<p align="center">
-  <img src="assets/images/login.png" width="300" alt="Login Screen">
-  <img src="assets/images/register 1.png" width="300" alt="Register Screen">
-</p>
+🔐 Authentication
+Login
+Email and password input fields.
+Form validation before submitting credentials.
+API request using Dio.
+Loading state while waiting for the response.
+Success and error states managed by AuthCubit.
+Navigation to the home screen after successful login.
+The returned token is sent as a Bearer token in the Authorization header on later requests.
+Register
 
-### Authentication Error State
+Fields: Username, Email, Password, Confirm Password.
 
-<p align="center">
-  <img src="assets/images/error.png" width="300" alt="Login Error State">
-</p>
+Note: The registration UI is separate from login and may not be connected to a working API endpoint yet.
 
-### Home Screen
+Auth states: AuthInitial, LoginLoadingState, LoginSuccessState, LoginErrorState.
 
-<p align="center">
-  <img src="assets/images/home_screenn.png" width="300" alt="Home Screen">
-<img src="assets/images/silder.png" width="300" >
-</p>
+🏠 Home: Best Sellers & Slider
+Best Seller
+Endpoint: GET products-bestseller
+HomeCubit.getBestSellerBox() emits loading, then success or error.
+HomeRepo fetches the data and BookModel represents each book.
+State	Purpose
+HomeInitial	Before any request
+GetBestSellerLoading	Books are loading
+GetBestSellerSuccess	Request succeeded
+GetBestSellerError	Request failed
+Slider
+Endpoint: GET sliders (response: data.sliders[].image).
+File	Responsibility
+slider_model.dart	Converts JSON to SliderModel, SliderData, SliderItem
+slider_repo.dart	Sends the request using Dio
+slider_cubit.dart	Calls the repo and emits states
+slider_state.dart	SliderInitial, SliderLoading, SliderSuccess, SliderError
+home_slider.dart	PageView.builder with indicators and Image.network
 
-> **Note:** Make sure all screenshot paths match the actual image locations in the repository. GitHub paths are case-sensitive, and filenames containing spaces must match exactly.
+Both HomeCubit and SliderCubit are provided to the Home screen with MultiBlocProvider, so each request stays independent.
 
-## ✨ Features
+🔎 Search & Book Details
+Search: products-search endpoint returns books matching the query.
+Details: products/ endpoint combined with the book id returns the full book information (name, description, price, discount, price after discount, stock, category, image).
+👤 Profile
+Endpoint: GET profile/
+Returns the user's id, name, email, address, city, phone, email verification status, and image.
+🛒 Cart Feature
+Endpoints
+Action	Method	Endpoint	Body
+Get cart	GET	cart/	none
+Add to cart	POST	add-to-cart	product_id
+Update quantity	POST	update-cart	cart_item_id, quantity
+Remove item	POST	remove-from-cart	cart_item_id
 
-### Authentication
- <img src="assets/images/search2.png" width="300" alt="search">
- <img src="assets/images/search3.png" width="300" alt="searching">
-### Details
- <img src="assets/images/details.png" width="300" >
- <img src="assets/images/details3.png" width="300" alt="details in book">
-<img src="assets/images/nav1.jpg" width="300" >
-<img src="assets/images/nav3.jpg" width="300" >
+cart_item_id is the id of the cart item (item_id in the cart response), not the product id. product_id is only used when adding to the cart.
 
-* Login screen with email and password fields.
-* Registration screen UI.
-* Form validation for user input.
-* API integration using Dio.
-* Loading indicators during login requests.
-* Success and error states managed by Cubit.
-* Navigation after successful authentication.
+Files
+File	Responsibility
+cart_model.dart	CartResponseModel, CartDataModel, cart items, user
+cart_repo.dart	getCartData, removeFromCart, updateCart using Dio
+cart_cubit.dart	Cart logic and currentCartData cache
+cart_state.dart	Cart states
+cart_screen.dart	Main cart screen (BlocConsumer)
+cart_item_card.dart	Single item card with quantity and remove buttons
+cart_summary.dart	Order summary and checkout
+cart_skeleton_loading.dart	Loading placeholder
+cart_empty_view.dart	Empty cart view
+cart_error_view.dart	Error view
+Cart States
+State	Purpose
+CartInitial	Before the cart is requested
+GetCartLoading	Cart is loading
+GetCartSuccess	Cart loaded (holds cartData)
+GetCartError	Failed to load the cart
+CartItemActionLoading	An item is being updated or removed
+CartItemActionError	An item action failed (SnackBar shown in CartScreen)
+Cart Flow
+CartScreen calls getCartData() once when opened (if the state is CartInitial).
+The cubit emits GetCartLoading, then GetCartSuccess with the data.
+When the user changes quantity or removes an item, the cubit emits CartItemActionLoading and the screen shows a thin progress bar.
+CartRepo sends the POST request. On success, the cart is fetched again so the UI shows the updated data.
+On failure, an error state is emitted and a SnackBar message is shown.
+Error Logging in CartRepo
 
-### Home & Books
+CartRepo prints the status code, error type, and URL of any failed request using debugPrint, so failed requests are no longer silent:
 
-* Home feature organized into separate components.
-* Best Seller Books API integration.
-* Repository-based data fetching.
-* Loading, success, and error states for book requests.
-* Book data handling through `BookModel`.
-* Separation of networking logic from UI and state management.
+text
+[updateCart] DioException | status: 422 | type: DioExceptionType.badResponse | url: .../api/update-cart
+🌐 API Integration
 
-### Application Architecture
+All endpoints are stored in one place:
 
-* State management using Cubit and `flutter_bloc`.
-* Centralized API endpoint configuration.
-* Centralized named routes.
-* Reusable UI components.
-* Responsive layouts using Flutter ScreenUtil.
-* Localization support using Easy Localization.
-
-## 🛠️ Technologies Used
-
-| Technology         | Purpose                                    |
-| ------------------ | ------------------------------------------ |
-| Flutter            | Building the mobile application            |
-| Dart               | Application programming language           |
-| flutter_bloc       | State management                           |
-| Cubit              | Managing authentication and home states    |
-| Dio                | Sending HTTP requests to APIs              |
-| BookModel          | Representing book data returned by the API |
-| Repository Pattern | Separating data access from business logic |
-| Flutter ScreenUtil | Responsive sizing and spacing              |
-| Easy Localization  | Supporting multiple languages              |
-| Material Design    | Building the user interface                |
-
-## 🔐 Authentication
-
-The authentication feature is organized into separate components to improve maintainability.
-
-### Login
-
-The login flow includes:
-
-* Email and password input fields.
-* Form validation before submitting credentials.
-* API requests using Dio.
-* Loading state while waiting for the response.
-* Success and error states managed by `AuthCubit`.
-* Navigation to the home screen after successful login.
-
-### Register
-
-The registration interface includes the following fields:
-
-* Username
-* Email
-* Password
-* Confirm Password
-
-The registration screen is developed separately from the login screen.
-
-> **Note:** The registration interface does not necessarily mean that registration is connected to a working API endpoint.
-
-## 📚 Home Feature & Best Seller Books
-
-The Home feature is responsible for retrieving and displaying book-related data.
-
-### Best Seller API
-
-The application uses an API endpoint to request the best-selling books.
-
-The endpoint configuration is organized using the `ApiEndPoint` class.
-
-Example:
-
-```dart
+dart
 class ApiEndPoint {
-  static const String baseUrl =
-      'https://codingarabic.eraapro.com/api';
+static const String baseUrl = "https://codingarabic.eraapro.com/api/";
 
-  static const String login = 'login';
+static const String login = "login";
+static const String bestSeller = "products-bestseller";
+static const String search = "products-search";
+static const String BookDetails = "products/";
+static const String sliders = "sliders";
+static const String Profile = "profile/";
 
-  static const String bestSeller = 'products-bestseller';
+static const String AddToCart = "add-to-cart";
+static const String cart = "cart/";
+static const String removeFromCart = "remove-from-cart";
+static const String updateCart = "update-cart";
 }
-```
+Layer	Responsibility
+ApiEndPoint	Base URL and endpoint paths
+Repository	Sends requests and returns models
+Model	Converts JSON into Dart objects
+Cubit	Emits loading / success / error states
+UI	Displays content based on the current state
 
-The base URL and endpoint paths are stored in one place to make API configuration easier to maintain.
+Security: Never commit real tokens or passwords to GitHub, and remove the Authorization header value from any logs you share.
 
-The Best Seller endpoint can be combined with the base URL to construct the request URL:
+🧯 Troubleshooting & Lessons Learned
 
-```dart
-final url = '${ApiEndPoint.baseUrl}/${ApiEndPoint.bestSeller}';
-```
+Problems solved while building the cart, kept here for future reference:
 
-The resulting URL is:
+Status	Symptom	Cause	Fix
+301 Moved Permanently	Remove item did nothing	POST endpoint ended with / (remove-from-cart/) and the server redirected it	Removed the trailing / from POST endpoints
+404 Not Found	Add to cart did nothing	Wrong endpoint name (add_to_cart)	Changed to add-to-cart to match the API naming style
+422 Unprocessable Entity	Quantity did not change	Server expects the field quantity, the app sent change_quantity	Renamed the body field to quantity
+Silent failures	No error shown to the user	catch returned false without logging	Added debugPrint logging and a CartItemActionError state with a SnackBar
 
-```text
-https://codingarabic.eraapro.com/api/products-bestseller
-```
+Takeaways
 
-> **Note:** The endpoint above reflects the configuration used during development. Its availability and the correctness of the server URL must be verified against the current API documentation.
+Read the Dio logs first: the status code usually tells you where the problem is.
+Match field names and endpoint paths exactly with the API.
+Do not swallow exceptions silently in repositories.
+🧭 Navigation
 
-### BookModel
+Centralized named routing through AppRouter:
 
-`BookModel` is used to represent the book data received from the API.
+Login, Register, Welcome, Home
+Bottom navigation between Home, Cart, and Profile (and other tabs if configured)
 
-The model helps organize the response data so that the application can access the book information through Dart objects instead of handling raw JSON throughout the UI.
+BlocProvider / MultiBlocProvider provide cubits to the screens that need them.
 
-### HomeRepo
+🎨 Reusable Components
+AppButton: customizable button.
+CustomTextFromFeild: reusable text field.
+AppTextStyle: centralized text styles.
+AppColors: centralized colors.
+AppValidator: input validation helpers.
+🌍 Supported Languages
 
-`HomeRepo` is responsible for retrieving Best Seller book data.
+Using Easy Localization:
 
-The repository separates data-fetching operations from the Cubit and UI layers.
+🇬🇧 English
+🇩🇪 German
+📂 Project Structure
 
-This organization makes the code easier to maintain and allows API-related logic to remain separate from presentation logic.
+Illustrative. Update it to match the files that actually exist in your project.
 
-### HomeCubit
-
-`HomeCubit` manages the state of the Best Seller books request.
-
-It calls the repository, waits for the response, and emits the appropriate state for the UI.
-
-The main method is:
-
-```dart
-getBestSellerBox()
-```
-
-The method starts by emitting a loading state, requests the data from `HomeRepo`, and then emits either a success or error state.
-
-### Home States
-
-The Home feature uses the following states:
-
-| State                  | Purpose                                   |
-| ---------------------- | ----------------------------------------- |
-| `HomeInitial`          | Initial state before a request begins     |
-| `GetBestSellerLoading` | Indicates that the books are being loaded |
-| `GetBestSellerSuccess` | Indicates that the request succeeded      |
-| `GetBestSellerError`   | Indicates that the request failed         |
-
-These states allow the UI to respond to different stages of the API request.
-
-### Request Flow
-
-The Best Seller request follows this sequence:
-
-1. The UI triggers `HomeCubit.getBestSellerBox()`.
-2. `HomeCubit` emits `GetBestSellerLoading`.
-3. `HomeCubit` calls `HomeRepo`.
-4. `HomeRepo` retrieves the data from the API.
-5. The response is handled using `BookModel`.
-6. `HomeCubit` emits `GetBestSellerSuccess` when the response is valid.
-7. If the request fails, `HomeCubit` emits `GetBestSellerError`.
-8. The UI can use these states to display a loading indicator, book data, or an error message.
-
-
-## 🖼️ Home Slider & API Integration
-
-The Home screen also displays banner images retrieved from the Sliders API.
-
-### Sliders API
-
-The application requests the slider data from:
-
-```http
-GET /sliders
-```
-
-The endpoint is configured in `ApiEndPoint`:
-
-```dart
-static const String sliders = 'sliders';
-```
-
-The API response contains a `data.sliders` list. Each item in the list contains an `image` URL. The application uses these URLs to load the banner images from the network.
-
-### Slider Files
-
-The slider feature is separated into the following files:
-
-| File | Responsibility |
-| --- | --- |
-| `slider_model.dart` | Converts the slider JSON response into Dart objects (`SliderModel`, `SliderData`, and `SliderItem`). |
-| `slider_repo.dart` | Sends the request to the Sliders API using the configured Dio instance and returns a `SliderModel`. |
-| `slider_cubit.dart` | Requests slider data from the repository and emits the appropriate state. |
-| `slider_state.dart` | Defines the initial, loading, success, and error states for the slider request. |
-| `home_slider.dart` | Displays the banner images and page indicators in the Home screen. |
-
-### Slider States
-
-The slider feature uses these states:
-
-| State | Purpose |
-| --- | --- |
-| `SliderInitial` | Initial state before loading starts. |
-| `SliderLoading` | Indicates that slider data is being loaded. |
-| `SliderSuccess` | Contains the list of slider images returned by the API. |
-| `SliderError` | Indicates that the request failed. |
-
-### Slider UI
-
-`HomeSlider` uses `BlocBuilder<SliderCubit, SliderState>` to rebuild the slider when its state changes.
-
-- A loading indicator is displayed while the request is in progress.
-- The banner images are displayed using `Image.network`.
-- `PageView.builder` allows users to swipe between the images.
-- Page indicators show which banner is currently selected.
-- An error message is displayed if the slider request fails.
-
-### Slider Request Flow
-
-1. `AppRouter` creates a `SliderCubit` when the Home screen is opened.
-2. `SliderCubit.getSliders()` starts the request and emits `SliderLoading`.
-3. `SliderCubit` calls `SliderRepo.getSliders()`.
-4. `SliderRepo` sends a GET request to the `/sliders` endpoint using Dio.
-5. `SliderModel.fromJson()` converts the JSON response into Dart objects.
-6. `SliderCubit` emits `SliderSuccess` with the slider list, or `SliderError` if the request fails.
-7. `HomeSlider` receives the state through `BlocBuilder` and displays the images.
-
-### Providing Both Home Cubits
-
-The Home screen needs two independent Cubits: `HomeCubit` for Best Seller books and `SliderCubit` for banner images. `MultiBlocProvider` makes both available to the same screen.
-
-This keeps book loading and slider loading independent. A problem with one request does not require changing the state-management logic of the other feature.
-
-## 🔄 State Management
-
-The application uses **Cubit** from the `flutter_bloc` package to manage application states.
-
-### Authentication States
-
-The login feature uses:
-
-* `AuthInitial`
-* `LoginLoadingState`
-* `LoginSuccessState`
-* `LoginErrorState`
-
-### Home States
-
-The Best Seller feature uses:
-
-* `HomeInitial`
-* `GetBestSellerLoading`
-* `GetBestSellerSuccess`
-* `GetBestSellerError`
-
-The Home slider feature uses:
-
-* `SliderInitial`
-* `SliderLoading`
-* `SliderSuccess`
-* `SliderError`
-
-Using separate Cubits and states keeps authentication, book loading, and slider loading independent from one another.
-
-## 🌐 API Integration
-
-The application uses **Dio** to communicate with REST APIs.
-
-The networking and data flow are organized into separate responsibilities:
-
-* **ApiEndPoint:** Stores the base URL and endpoint paths.
-* **Repository:** Handles data-fetching operations.
-* **Model:** Represents the response data, including book and slider data.
-* **Cubit:** Manages loading, success, and error states for each feature.
-* **UI:** Displays the appropriate content based on the current state.
-
-This separation makes the application easier to understand, test, and maintain.
-
-## 🧭 Navigation
-
-The application uses centralized named routing through `AppRouter`.
-
-The documented routes include:
-
-* Login Screen
-* Register Screen
-* Welcome Screen
-* Home Screen
-
-`BlocProvider` is used to provide Cubits to the screens that need them.
-
-For example, a screen can receive a Cubit through `BlocProvider` and listen to its state changes using the appropriate Bloc widgets.
-
-## 🎨 Reusable Components
-
-The project includes reusable components to help maintain a consistent design.
-
-* `AppButton`: A customizable button with configurable text and colors.
-* `CustomTextFromFeild`: A reusable text field component.
-* `AppTextStyle`: Centralized text styling.
-* `AppColors`: Centralized application colors.
-* `AppValidator`: Validation helpers for user input.
-
-## 🌍 Supported Languages
-
-The project includes localization support using Easy Localization.
-
-Currently configured languages:
-
-* 🇬🇧 English
-* 🇩🇪 German
-
-The actual languages available to users depend on the localization files and the application's locale configuration.
-
-## 📂 Project Structure
-
-The following structure documents the main components discussed during development. Update it to match the actual files in your project.
-
-```text
+text
 app3/
 ├── assets/
 │   ├── images/
@@ -372,7 +238,8 @@ app3/
 ├── lib/
 │   ├── core/
 │   │   ├── networking/
-│   │   │   └── api_end_point.dart
+│   │   │   ├── api_endpoint.dart
+│   │   │   └── dio_factory.dart
 │   │   ├── routes/
 │   │   │   ├── app_route.dart
 │   │   │   └── app_router.dart
@@ -387,118 +254,54 @@ app3/
 │   │
 │   ├── features/
 │   │   ├── auth/
-│   │   │   └── data/
-│   │   │       ├── models/
-│   │   │       │   └── book_model.dart
-│   │   │       └── repo/
-│   │   │           ├── auth_repo.dart
-│   │   │           └── home-repo.dart
-│   │   │
+│   │   ├── home/
+│   │   ├── cart/
+│   │   │   ├── data/
+│   │   │   │   ├── model/cart_model.dart
+│   │   │   │   └── repo/cart_repo.dart
+│   │   │   └── preentaion/
+│   │   │       ├── cart_cubit.dart
+│   │   │       ├── cart_state.dart
+│   │   │       └── ui/
+│   │   │           ├── cart_screen.dart
+│   │   │           └── widgets/
+│   │   │               ├── cart_empty_view.dart
+│   │   │               ├── cart_error_view.dart
+│   │   │               ├── cart_item_card.dart
+│   │   │               ├── cart_skeleton_loading.dart
+│   │   │               └── cart_summary.dart
 │   │   └── welcome/
-│   │       └── presentaion/
-│   │           └── silder/
-│   │               ├── slider_model.dart
-│   │               ├── slider_repo.dart
-│   │               ├── slider_cubit.dart
-│   │               ├── slider_state.dart
-│   │               └── widgets/
-│   │                   └── home_slider.dart
-│   │
-│   │   └── presentaion/
-│   │       ├── cubit/
-│   │       │   ├── auth_cubit.dart
-│   │       │   ├── auth_state.dart
-│   │       │   ├── home_cubit.dart
-│   │       │   └── home_state.dart
-│   │       └── ui/
-│   │           ├── login_Screen.dart
-│   │           ├── register_screen.dart
-│   │           └── widgets/
-│   │               └── login_form.dart
 │   │
 │   ├── bookia_App.dart
 │   └── main.dart
 │
 ├── README.md
 └── pubspec.yaml
-```
-
-> **Important:** The file tree is illustrative. Keep only the folders and filenames that actually exist in your repository. In particular, the exact location of `HomeCubit`, `HomeState`, and `BookModel` should match your project.
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Before running the project, make sure you have installed:
-
-* Flutter SDK
-* Dart SDK
-* Android Studio or Visual Studio Code
-* An Android emulator or a physical device
-
-### Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone YOUR_REPOSITORY_URL
-   ```
-
-2. Navigate to the project directory:
-
-   ```bash
-   cd app3
-   ```
-
-3. Install the dependencies:
-
-   ```bash
-   flutter pub get
-   ```
-
-4. Check the available devices:
-
-   ```bash
-   flutter devices
-   ```
-
-5. Run the application:
-
-   ```bash
-   flutter run
-   ```
-
-## 📦 Dependencies
-
-The project uses packages such as:
-
-* `flutter_bloc`
-* `bloc`
-* `dio`
-* `meta`
-* `flutter_screenutil`
-* `easy_localization`
-
-Run the following command to install the dependencies declared in `pubspec.yaml`:
-
-```bash
+🚀 Getting Started
+Prerequisites
+Flutter SDK
+Dart SDK
+Android Studio or Visual Studio Code
+An Android emulator or a physical device
+Installation
+bash
+git clone YOUR_REPOSITORY_URL
+cd app3
 flutter pub get
-```
+flutter devices
+flutter run
 
-## 🎯 Project Goals
+After changing const values such as endpoints, use Hot Restart (not Hot Reload).
 
-* Build a clean and responsive Flutter application.
-* Practice reusable widget development.
-* Implement form validation.
-* Integrate REST APIs using Dio.
-* Organize API endpoints in a centralized class.
-* Represent API responses using data models.
-* Separate data fetching into repository classes.
-* Manage authentication and book-loading states with Cubit.
-* Organize navigation using named routes.
-* Separate UI, state management, and networking logic.
-* Practice building maintainable Flutter applications.
+🎯 Project Goals
+Build a clean and responsive Flutter application.
+Practice reusable widget development and form validation.
+Integrate REST APIs using Dio (GET and POST).
+Represent API responses using data models.
+Separate data fetching into repository classes.
+Manage auth, home, slider, and cart states with Cubit.
+Organize navigation using named routes.
+Debug API problems using HTTP status codes and logs.
+👨‍💻 Author
 
-## 👨‍💻 Author
-
-Developed as a Flutter learning project to practice mobile application development, authentication, API integration, state management, and clean code organization.
+Developed as a Flutter learning project to practice mobile application development, API integration, state management, and clean code organization.
